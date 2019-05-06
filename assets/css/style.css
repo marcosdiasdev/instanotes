@@ -1,0 +1,31 @@
+body {
+    background-color: rgb(255, 244, 117);
+    font-size: 1.5em;
+}
+
+.novo-item {
+    color: #777;
+    padding-left: 20px;
+}
+
+.tarefa {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.item {
+    width: 100%;
+}
+
+.conteudo {
+    width: 100%;
+}
+
+.btn-excluir {
+    cursor: pointer;
+    width: 39px;
+    padding: 0px 9px;
+}

@@ -2,8 +2,9 @@ const novoItem = document.querySelector(".novo-item");
 var listaVirtual = JSON.parse(localStorage.getItem("lista")) || [];
 
 for(item of listaVirtual) {
-    let li = criarItemDaLista(item.trim());
-    novoItem.after(li);
+    item = criarItemDaLista(item.trim());
+    console.log(item);
+    novoItem.after(item);
 }
 
 /*
@@ -26,11 +27,10 @@ novoItem.addEventListener('focus', () => {
 novoItem.addEventListener('blur', () => {
     if(!novoItem.textContent) {
         novoItem.textContent = "Novo item";
-        novoItem.classList.add("novo-item");
     } else {
         
-        let li = criarItemDaLista(novoItem.textContent);
-        novoItem.after(li);
+        let item = criarItemDaLista(novoItem.textContent);
+        novoItem.after(item);
         novoItem.textContent = "Novo item";
 
         atualizaLista();
@@ -42,7 +42,7 @@ novoItem.addEventListener('blur', () => {
  */
 
 function atualizaLista() {
-    let itens = document.getElementsByClassName('conteudo');
+    let itens = document.querySelectorAll('.conteudo');
     listaVirtual = [];
     for(item of itens) {
         listaVirtual.unshift(item.textContent);
@@ -51,35 +51,32 @@ function atualizaLista() {
 }
 
 function criarItemDaLista(texto) {
-    let li = 
+    let tarefa = 
     `<div class="tarefa">
         <div contenteditable class="conteudo">${texto}</div>
         <div class="fas fa-times fa-xs btn-excluir"></div>
     </div>`;
-    li = htmlToElement(li);
-    li.querySelector('.conteudo').addEventListener('blur', function() {
+    
+    tarefa = textoParaHTML(tarefa);
+    
+    tarefa.querySelector('.conteudo').addEventListener('blur', function() {
         atualizaLista();
     });
-    li.querySelector('.btn-excluir').addEventListener('click', function() {
-        li.remove();
+
+    tarefa.querySelector('.btn-excluir').addEventListener('click', function() {
+        tarefa.remove();
         atualizaLista();
     });
-    return li;
+
+    return tarefa;
 }
 
 /*
- * Funções para gerar elementos HTML a partir de strings
+ * Função para gerar elementos HTML a partir de strings
  */
 
-function htmlToElement(html) {
-    var template = document.createElement('template');
-    html = html.trim();
-    template.innerHTML = html;
+function textoParaHTML(texto) {
+    let template = document.createElement('template');
+    template.innerHTML = texto.trim();
     return template.content.firstChild;
-}
-
-function htmlToElements(html) {
-    var template = document.createElement('template');
-    template.innerHTML = html;
-    return template.content.childNodes;
 }
